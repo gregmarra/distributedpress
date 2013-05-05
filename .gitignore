@@ -1,0 +1,5 @@
+# Secrets #
+client_secrets.json
+
+# Compiled Files #
+*.pyc
