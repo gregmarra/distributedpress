@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h1>Printers</h1>
+        <div class="btn-toolbar">
+            <a class="btn btn-success" href="/printers/add"><i class="icon-plus-sign icon-white"></i> Add Printer</a></p>
+        </div>
+        <table class="table">
+            <tr>
+                <th>Owner</th>
+                <th>Printer</th>
+                <th>Actions</th>
+            </tr>
+            {% for printer in printers %}
+            <tr>
+                <td>{{ printer.owner_name }}</td>
+                <td>{{ printer.email }}</td>
+                <td>
+                    <form action="/printers/delete" method="post">
+                        <input type="hidden" name="printer_key_id" value="{{printer.key.id}}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
