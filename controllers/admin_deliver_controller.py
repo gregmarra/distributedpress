@@ -54,7 +54,7 @@ class AdminDeliverController(webapp2.RequestHandler):
                     url = "/tasks/print/submit", 
                     method = "POST",
                     params = {
-                        "printer_key_id": printer.key.id,
+                        "printer_key_id": printer.key.id(),
                         "title": self.request.get("deliver_title"),
                         "url": self.request.get("deliver_url")
                         }
@@ -78,7 +78,7 @@ class AdminDeliverController(webapp2.RequestHandler):
                     url = "/tasks/print/submit", 
                     method = "POST",
                     params = {
-                        "printer_key_id": printer.key.id,
+                        "printer_key_id": printer.key.id(),
                         "title": self.request.get("deliver_title"),
                         "url": self.request.get("deliver_url")
                         }

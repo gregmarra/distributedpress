@@ -11,7 +11,7 @@ from models.printer import Printer
 from models.gcp_credentials import GcpCredentials
 
 class PrintSubmitTask(webapp2.RequestHandler):
-    def get(self):
+    def post(self):
         printer = Printer.get_by_id(int(self.request.get("printer_key_id")))
         account = printer.owner
         gcp_cred_storage = StorageByKeyName(GcpCredentials, account.id(), 'credentials')
