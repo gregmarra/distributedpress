@@ -3,6 +3,7 @@ import logging
 import urllib
 import webapp2
 
+from google.appengine.api import taskqueue
 from google.appengine.api import users
 from google.appengine.ext.webapp import template
 
@@ -27,15 +28,14 @@ class PrinterTestPrintController(webapp2.RequestHandler):
 
         printer = Printer.get_by_id(int(self.request.get("printer_key_id")))
 
-        data = {
-            'printerid': printer.cloudprint_id,
-            'title': 'apartment news network',
-            'content': 'http://www.google.com',
-            'contentType': 'url',
-        }
-        body = urllib.urlencode(data)
-        http = gcp_creds.authorize(httplib2.Http())
-        resp, content = http.request('https://www.google.com/cloudprint/submit', method="POST", body=body)
-        self.response.write(content)
-
+        taskqueue.add(
+                    url = "/tasks/print/submit", 
+                    method = "POST",
+                    params = {
+                        "printer_key_id": printer.key.id(),
+                        "title": "Cloudfax Test Print",
+                        "url": "http://www.google.com"
+                        }
+                    )
+        
         self.redirect("/printers/list")
