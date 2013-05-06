@@ -2,6 +2,7 @@ import webapp2
 
 import ann_config
 
+from controllers.admin_deliver_controller import AdminDeliverController
 from controllers.admin_printer_list_controller import AdminPrinterListController
 from controllers.main_controller import MainController
 from controllers.printer_add_controller import PrinterAddController
@@ -12,6 +13,7 @@ from controllers.printer_test_print_controller import PrinterTestPrintController
 app = webapp2.WSGIApplication([
     ('/', MainController),
     ('/admin/printers/list', AdminPrinterListController),
+    ('/admin/deliver', AdminDeliverController),
     ('/printers/add', PrinterAddController),
     ('/printers/delete', PrinterDeleteController),
     ('/printers/list', PrinterListController),

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+    {% if printer_names %}
+    <div class="row">
+        <div class="alert alert-block alert-success">
+            <p>Tested by printing to {{ printer_names|join:", " }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <h1>Deliver Issue</h1>
+        <form action="/admin/deliver" class="form-horizontal" method="post">
+            <div class="control-group">
+                <label class="control-label" for="deliver_title">Title of Issue</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" name="deliver_title" placeholder="Apartment News Network - July 2014" value="{{deliver_title}}">
+                    </div>
+                </div>                
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="deliver_url">URL to Print</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" name="deliver_url" placeholder="http://www.google.com" value="{{deliver_url}}">
+                        <button class="btn" id="preview_button" type="button">preview</button>
+                    </div>
+                </div>                
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="deliver_config">Test or Ship?</label>
+                <div class="controls">
+                    <select name="deliver_config">
+                        <option value="test">Test on my Printer</option>
+                        <option value="ship">Ship to ALL PRINTERS</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-warning">Print!</button>
+                    <a href="/" class="btn">Abort</a>
+                </div>
+            </div>
+        </form>
+        </table>
+    </div>
+</div>
+{% endblock %}
