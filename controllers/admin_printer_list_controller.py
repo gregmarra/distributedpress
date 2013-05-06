@@ -9,19 +9,21 @@ from google.appengine.ext.webapp import template
 from models.account import Account
 from models.printer import Printer
 
-class PrinterListController(webapp2.RequestHandler):
+class AdminPrinterListController(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         if not user:
             self.redirect(users.create_login_url("/"))
+        if not users.is_current_user_admin():
+            self.redirect(users.create_login_url("/"))
 
-        account = Account.get_or_insert(user.user_id())
-        printers = Printer.query(Printer.owner == account.key).fetch(10000)
+        printers = Printer.query().fetch(10000)
 
         template_values = {
             "printers": printers,
+            "logout": users.create_logout_url("/"),
             "user": user,
         }
     
-        path = os.path.join(os.path.dirname(__file__), '../templates/printer_list.html')
+        path = os.path.join(os.path.dirname(__file__), '../templates/admin_printer_list.html')
         self.response.write(template.render(path, template_values))

@@ -3,16 +3,17 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <h1>Your Printers</h1>
-        {% if printers|length > 0 %}
+        <h1>All Printers</h1>
         <table class="table">
             <tr>
+                <th>Owner</th>
                 <th>Printer</th>
                 <th>Cloud Print ID</th>
                 <th>Actions</th>
             </tr>
             {% for printer in printers %}
             <tr>
+                <td>{{ printer.owner.id }} ({{ printer.owner.get.email }})</td>
                 <td>{{ printer.display_name }}</td>
                 <td>{{ printer.cloudprint_id }}</td>
                 <td>
@@ -20,20 +21,10 @@
                         <input type="hidden" name="printer_key_id" value="{{printer.key.id}}">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
-                    <form action="/printers/test" method="post" style="display:inline">
-                        <input type="hidden" name="printer_key_id" value="{{printer.key.id}}">
-                        <button type="submit" class="btn btn-success">Print Google.com</button>
-                    </form>
                 </td>
             </tr>
             {% endfor %}
         </table>
-        {% else %}
-        <p>You have no printers yet.</p>
-        {% endif %}
-        <div class="btn-toolbar">
-            <a class="btn btn-success" href="/printers/add"><i class="icon-plus-sign icon-white"></i> Add Printer</a></p>
-        </div>
     </div>
 </div>
 {% endblock %}

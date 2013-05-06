@@ -3,17 +3,25 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <form action="/printers/add" method="post">
-            <fieldset>
-                <legend>Add Printer</legend>
-                <label>Owner</label>
-                <input type="text" name="owner_name" placeholder="Barack Obama">
-                <label>Email</label>
-                <input type="text" name="email" placeholder="obama@hpeprint.com">
-                <br />
-                <button type="submit" class="btn">Add</button>
-            </fieldset>
-        </form>
+        <h1>Add Printers</h1>
+        <table class="table">
+            <tr>
+                <th>Printer</th>
+                <th>Add</th>
+            </tr>
+            {% for printer in printers %}
+            <tr>
+                <td>{{printer.displayName}}</td>
+                <td>
+                    <form action="/printers/add" method="post">
+                        <input type="hidden" name="printer_cloudprint_id" value="{{printer.id}}">
+                        <input type="hidden" name="printer_display_name" value="{{printer.displayName}}">
+                        <button type="submit" class="btn btn-success"><i class="icon-plus-sign icon-white"></i> Add Printer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 </div>
 {% endblock %}
