@@ -13,7 +13,7 @@ class PrinterListController(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         if not user:
-            self.redirect(users.create_login_url("/"))
+            return self.redirect(users.create_login_url("/"))
 
         account = Account.get_or_insert(user.user_id())
         printers = Printer.query(Printer.owner == account.key).fetch(10000)

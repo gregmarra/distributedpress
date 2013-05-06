@@ -22,7 +22,7 @@ class PrinterAddController(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         if not user:
-            self.redirect(users.create_login_url("/"))
+            return self.redirect(users.create_login_url("/"))
 
         gcp_cred_storage = StorageByKeyName(GcpCredentials, user.user_id(), 'credentials')
         gcp_creds = gcp_cred_storage.get()
@@ -72,4 +72,4 @@ class PrinterAddController(webapp2.RequestHandler):
             display_name = self.request.get("printer_display_name"),
         ).put()
 
-        self.redirect("/printers/list")
+        return self.redirect("/printers/list")

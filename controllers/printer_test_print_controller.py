@@ -17,13 +17,13 @@ class PrinterTestPrintController(webapp2.RequestHandler):
     def post(self):
         user = users.get_current_user()
         if not user:
-            self.redirect(users.create_login_url("/"))
+            return self.redirect(users.create_login_url("/"))
 
         gcp_cred_storage = StorageByKeyName(GcpCredentials, user.user_id(), 'credentials')
         gcp_creds = gcp_cred_storage.get()
 
         if not gcp_creds:
-            self.redirect("/printers/add")
+            return self.redirect("/printers/add")
 
         printer = Printer.get_by_id(int(self.request.get("printer_key_id")))
 

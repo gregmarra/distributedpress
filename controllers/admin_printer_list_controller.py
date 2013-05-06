@@ -13,9 +13,9 @@ class AdminPrinterListController(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         if not user:
-            self.redirect(users.create_login_url("/"))
+            return self.redirect(users.create_login_url("/"))
         if not users.is_current_user_admin():
-            self.redirect(users.create_login_url("/"))
+            return self.redirect(users.create_login_url("/"))
 
         printers = Printer.query().fetch(10000)
 
