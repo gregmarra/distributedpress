@@ -27,21 +27,25 @@
                 <ul class="nav">
                     <li><a href="/dashboard">Dashboard</a></li>
                 </ul>
-                {% if user %}
+                {% if user_bundle.user %}
                 <ul class="nav pull-right">
                     <li class="dropdown pull-right">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            {{user.nickname}}
+                            {{user_bundle.user.nickname}}
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{users_dict.logout_url}}">Logout</a></li>
+                            {% if user_bundle.is_current_user_admin %}
+                            <li><a href="/admin/printers/list">Admin</a></li>
+                            <li class="divider"></li>
+                            {% endif %}
+                            <li><a href="{{user_bundle.logout_url}}">Logout</a></li>
                         </ul>
                     </li>
                 </ul>
                 {% else %}
                 <ul class="nav pull-right">
-                    <li><a href="{{users_dict.login_url}}">Login</a></li>
+                    <li><a href="{{user_bundle.login_url}}">Login</a></li>
                 </ul>
                 {% endif %}
             </div>

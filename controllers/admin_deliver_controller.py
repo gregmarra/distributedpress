@@ -5,13 +5,13 @@ import urllib
 import webapp2
 
 from google.appengine.api import taskqueue
-from google.appengine.api import users
 from google.appengine.ext.webapp import template
 
 from oauth2client.appengine import StorageByKeyName
 
 import ann_config
 
+from helpers.user_bundle import UserBundle
 from models.account import Account
 from models.printer import Printer
 from models.gcp_credentials import GcpCredentials
@@ -19,19 +19,18 @@ from models.gcp_credentials import GcpCredentials
 class AdminDeliverController(webapp2.RequestHandler):
     def __init__(self, *args, **kw):
         super(AdminDeliverController, self).__init__(*args, **kw)
-        self.user = users.get_current_user()
+        self.user_bundle = UserBundle()
         self._check_is_admin()
 
     def _check_is_admin(self):
-        if not self.user:
-            return self.redirect(users.create_login_url("/"), abort=True)
-        if not users.is_current_user_admin():
-            return self.redirect(users.create_login_url("/"), abort=True)
+        if not self.user_bundle.user:
+            return self.redirect(user_bundle.login_url, abort=True)
+        if not self.user_bundle.is_current_user_admin:
+            return self.redirect(user_bundle.login_url, abort=True)
 
     def get(self):
         template_values = {
-            "logout": users.create_logout_url("/"),
-            "user": self.user,
+            "user_bundle": self.user_bundle,
         }
     
         path = os.path.join(os.path.dirname(__file__), '../templates/admin_deliver.html')

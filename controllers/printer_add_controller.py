@@ -12,6 +12,7 @@ from oauth2client.appengine import StorageByKeyName
 
 import ann_config
 
+from helpers.user_bundle import UserBundle
 from models.account import Account
 from models.gcp_credentials import GcpCredentials
 from models.printer import Printer
@@ -20,11 +21,11 @@ from models.printer import Printer
 class PrinterAddController(webapp2.RequestHandler):
     @ann_config.oauth_decorator.oauth_aware
     def get(self):
-        user = users.get_current_user()
-        if not user:
-            return self.redirect(users.create_login_url("/"))
+        user_bundle = UserBundle()
+        if not user_bundle.user:
+            return self.redirect(user_bundle.login_url)
 
-        gcp_cred_storage = StorageByKeyName(GcpCredentials, user.user_id(), 'credentials')
+        gcp_cred_storage = StorageByKeyName(GcpCredentials, user_bundle.user.user_id(), 'credentials')
         gcp_creds = gcp_cred_storage.get()
         if gcp_creds is None:
             if ann_config.oauth_decorator.has_credentials():
@@ -33,8 +34,7 @@ class PrinterAddController(webapp2.RequestHandler):
             else:
                 template_values = {
                     "auth_url": ann_config.oauth_decorator.authorize_url(),
-                    "logout": users.create_logout_url("/"),
-                    "user": user,
+                    "user_bundle": user_bundle,
                 }
                 path = os.path.join(os.path.dirname(__file__), '../templates/gcp_authorization_request.html')
                 self.response.write(template.render(path, template_values))
@@ -48,8 +48,7 @@ class PrinterAddController(webapp2.RequestHandler):
 
         template_values = {
             "printers": printers,
-            "logout": users.create_logout_url("/"),
-            "user": user,
+            "user_bundle": user_bundle,
         }
     
         path = os.path.join(os.path.dirname(__file__), '../templates/printer_add.html')
@@ -57,14 +56,14 @@ class PrinterAddController(webapp2.RequestHandler):
         
 
     def post(self):
-        user = users.get_current_user()
-        if not user:
-            self.redirect(users.create_login_url("/"))
+        user_bundle = UserBundle()
+        if not user_bundle.user:
+            return self.redirect(user_bundle.login_url)
 
         account = Account.get_or_insert(
-            user.user_id(),
-            email = user.email(),
-            nickname = user.nickname())
+            user_bundle.user.user_id(),
+            email = user_bundle.user.email(),
+            nickname = user_bundle.user.nickname())
 
         printer = Printer(
             owner = account.key,
@@ -72,4 +71,4 @@ class PrinterAddController(webapp2.RequestHandler):
             display_name = self.request.get("printer_display_name"),
         ).put()
 
-        return self.redirect("/printers/list")
+        return self.redirect("/dashboard")

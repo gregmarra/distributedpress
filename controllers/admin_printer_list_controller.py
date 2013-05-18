@@ -2,27 +2,26 @@ import os
 import logging
 import webapp2
 
-from google.appengine.api import users
 from google.appengine.ext import ndb
 from google.appengine.ext.webapp import template
 
+from helpers.user_bundle import UserBundle
 from models.account import Account
 from models.printer import Printer
 
 class AdminPrinterListController(webapp2.RequestHandler):
     def get(self):
-        user = users.get_current_user()
-        if not user:
-            return self.redirect(users.create_login_url("/"))
-        if not users.is_current_user_admin():
-            return self.redirect(users.create_login_url("/"))
+        user_bundle = UserBundle()
+        if not user_bundle.user:
+            return self.redirect(user_bundle.login_url)
+        if not user_bundle.is_current_user_admin:
+            return self.redirect("/")
 
         printers = Printer.query().fetch(10000)
 
         template_values = {
             "printers": printers,
-            "logout": users.create_logout_url("/"),
-            "user": user,
+            "user_bundle": user_bundle,
         }
     
         path = os.path.join(os.path.dirname(__file__), '../templates/admin_printer_list.html')

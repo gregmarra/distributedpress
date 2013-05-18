@@ -11,16 +11,17 @@ from oauth2client.appengine import StorageByKeyName
 
 import ann_config
 
+from helpers.user_bundle import UserBundle
 from models.printer import Printer
 from models.gcp_credentials import GcpCredentials
 
 class PrinterTestPrintController(webapp2.RequestHandler):
     def post(self):
-        user = users.get_current_user()
-        if not user:
-            return self.redirect(users.create_login_url("/"))
+        user_bundle = UserBundle()
+        if not user_bundle.user:
+            return self.redirect(user_bundle.login_url)
 
-        gcp_cred_storage = StorageByKeyName(GcpCredentials, user.user_id(), 'credentials')
+        gcp_cred_storage = StorageByKeyName(GcpCredentials, user_bundle.user.user_id(), 'credentials')
         gcp_creds = gcp_cred_storage.get()
 
         if not gcp_creds:
