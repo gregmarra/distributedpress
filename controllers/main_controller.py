@@ -10,7 +10,7 @@ class MainController(webapp2.RequestHandler):
     def get(self):
 
         users_dict = {
-            "login_url": users.create_login_url("/printers/list"),
+            "login_url": users.create_login_url("/dashboard"),
             "logout_url": users.create_logout_url("/"),
         }
 

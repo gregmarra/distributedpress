@@ -84,4 +84,4 @@ class AdminDeliverController(webapp2.RequestHandler):
                         }
                     )
 
-            self.redirect("/printers/list")        
+            self.redirect("/dashboard")        

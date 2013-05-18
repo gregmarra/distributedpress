@@ -11,4 +11,4 @@ class PrinterDeleteController(webapp2.RequestHandler):
     def post(self):
         printer = Printer.get_by_id(int(self.request.get("printer_key_id")))
         printer.key.delete()
-        self.redirect("/printers/list")
+        self.redirect("/dashboard")

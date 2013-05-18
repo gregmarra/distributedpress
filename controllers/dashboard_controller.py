@@ -9,7 +9,7 @@ from google.appengine.ext.webapp import template
 from models.account import Account
 from models.printer import Printer
 
-class PrinterListController(webapp2.RequestHandler):
+class DashboardController(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         if not user:
