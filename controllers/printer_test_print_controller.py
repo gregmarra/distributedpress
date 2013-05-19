@@ -10,10 +10,11 @@ from models.printer import Printer
 from models.gcp_credentials import GcpCredentials
 
 class PrinterTestPrintController(BaseHandler):
-    def post(self):
-        if not self.user_bundle.user:
-            return self.redirect(self.user_bundle.login_url)
+    def __init__(self, *args, **kw):
+        super(PrinterTestPrintController, self).__init__(*args, **kw)
+        self._require_login()
 
+    def post(self):
         gcp_cred_storage = StorageByKeyName(GcpCredentials, self.user_bundle.user.user_id(), 'credentials')
         gcp_creds = gcp_cred_storage.get()
 
@@ -27,5 +28,5 @@ class PrinterTestPrintController(BaseHandler):
             "Distributed Press Test Print",
             "http://distributedpress.appspot.com"
         )
-        
+
         self.redirect("/dashboard")

@@ -9,6 +9,10 @@ from models.account import Account
 from models.printer import Printer
 
 class DashboardController(BaseHandler):
+    def __init__(self, *args, **kw):
+        super(DashboardController, self).__init__(*args, **kw)
+        self._require_login()
+
     def get(self):
         if not self.user_bundle.user:
             return self.redirect(self.user_bundle.login_url)

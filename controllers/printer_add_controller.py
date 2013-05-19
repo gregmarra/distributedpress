@@ -17,11 +17,12 @@ from models.printer import Printer
 
 
 class PrinterAddController(BaseHandler):
+    def __init__(self, *args, **kw):
+        super(PrinterAddController, self).__init__(*args, **kw)
+        self._require_login()
+
     @ann_config.oauth_decorator.oauth_aware
     def get(self):
-        if not self.user_bundle.user:
-            return self.redirect(self.user_bundle.login_url)
-
         gcp_cred_storage = StorageByKeyName(GcpCredentials, self.user_bundle.user.user_id(), 'credentials')
         gcp_creds = gcp_cred_storage.get()
         if gcp_creds is None:
@@ -49,11 +50,7 @@ class PrinterAddController(BaseHandler):
         path = os.path.join(os.path.dirname(__file__), '../templates/printer_add.html')
         self.response.write(template.render(path, self.template_values))
         
-
     def post(self):
-        if not self.user_bundle.user:
-            return self.redirect(self.user_bundle.login_url)
-
         account = Account.get_or_insert(
             self.user_bundle.user.user_id(),
             email = self.user_bundle.user.email(),

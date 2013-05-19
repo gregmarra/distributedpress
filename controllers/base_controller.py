@@ -15,7 +15,10 @@ class BaseHandler(webapp2.RequestHandler):
         }
 
     def _require_admin(self):
-        if not self.user_bundle.user:
-            return self.redirect(user_bundle.login_url, abort=True)
+        self._require_login()
         if not self.user_bundle.is_current_user_admin:
-            return self.redirect(user_bundle.login_url, abort=True)
+            return self.redirect(self.user_bundle.login_url, abort=True)
+
+    def _require_login(self):
+        if not self.user_bundle.user:
+            return self.redirect(self.user_bundle.login_url, abort=True)
