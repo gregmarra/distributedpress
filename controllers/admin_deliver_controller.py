@@ -18,13 +18,7 @@ from models.gcp_credentials import GcpCredentials
 class AdminDeliverController(BaseHandler):
     def __init__(self, *args, **kw):
         super(AdminDeliverController, self).__init__(*args, **kw)
-        self._check_is_admin()
-
-    def _check_is_admin(self):
-        if not self.user_bundle.user:
-            return self.redirect(user_bundle.login_url, abort=True)
-        if not self.user_bundle.is_current_user_admin:
-            return self.redirect(user_bundle.login_url, abort=True)
+        self._require_admin()
 
     def get(self):
         path = os.path.join(os.path.dirname(__file__), '../templates/admin_deliver.html')

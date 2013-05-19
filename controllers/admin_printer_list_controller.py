@@ -8,12 +8,11 @@ from models.account import Account
 from models.printer import Printer
 
 class AdminPrinterListController(BaseHandler):
-    def get(self):
-        if not self.user_bundle.user:
-            return self.redirect(self.user_bundle.login_url)
-        if not self.user_bundle.is_current_user_admin:
-            return self.redirect("/")
+    def __init__(self, *args, **kw):
+        super(AdminDeliverController, self).__init__(*args, **kw)
+        self._require_admin()
 
+    def get(self):
         printers = Printer.query().fetch(10000)
 
         self.template_values.update({

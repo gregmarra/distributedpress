@@ -13,3 +13,9 @@ class BaseHandler(webapp2.RequestHandler):
         self.template_values = {
             "user_bundle": self.user_bundle
         }
+
+    def _require_admin(self):
+        if not self.user_bundle.user:
+            return self.redirect(user_bundle.login_url, abort=True)
+        if not self.user_bundle.is_current_user_admin:
+            return self.redirect(user_bundle.login_url, abort=True)
