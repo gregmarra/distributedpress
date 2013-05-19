@@ -7,7 +7,21 @@
     </div>
     <div class="row">
         <div class="span12">
-            <h2>Printers</h2>
+            <h2>Recent Issues</h2>
+            <table class="table">
+                {% for print_job in print_jobs %}
+                <tr>
+                    <td>{{ print_job.title }}</td>
+                    <td>
+                        <form action="/printers/test" method="post" style="display:inline">
+                            <button type="submit" class="btn btn-primary">TODO: Print Again</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <h2>Your Printers</h2>
             {% if printers|length > 0 %}
             <table class="table">
                 <tr>

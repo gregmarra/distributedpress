@@ -13,6 +13,7 @@ from controllers.base_controller import BaseHandler
 from helpers.print_job_enqueuer import PrintJobEnqueuer
 from models.account import Account
 from models.printer import Printer
+from models.print_job import PrintJob
 from models.gcp_credentials import GcpCredentials
 
 class AdminDeliverController(BaseHandler):
@@ -34,7 +35,14 @@ class AdminDeliverController(BaseHandler):
     def _deliver_ship(self):
         """Ship to everyone"""
 
+        account = Account.get_or_insert(self.user_bundle.user.user_id())
         printers = Printer.query().fetch(1000)
+
+        print_job = PrintJob(
+            author = account.key,
+            title = self.request.get(self.request.get("deliver_title")),
+            url = self.request.get("deliver_url"),
+        ).put()
 
         PrintJobEnqueuer.enqueue_to_printers(
             printers,
@@ -53,7 +61,7 @@ class AdminDeliverController(BaseHandler):
         if not gcp_creds:
             return self.redirect("/printers/add")
         
-        account = Account.get_or_insert(self.user.user_id())
+        account = Account.get_or_insert(self.user_bundle.user.user_id())
         printers = Printer.query(Printer.owner == account.key).fetch(1000)
 
         PrintJobEnqueuer.enqueue_to_printers(
