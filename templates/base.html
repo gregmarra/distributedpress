@@ -25,7 +25,8 @@
             <a class="brand" href="/">Distributed Press</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="/dashboard">Dashboard</a></li>
+                    {% if user_bundle.user %}<li><a href="/dashboard">Dashboard</a></li>{% endif %}
+                    <li><a href="/about">About</a></li>
                 </ul>
                 {% if user_bundle.user %}
                 <ul class="nav pull-right">

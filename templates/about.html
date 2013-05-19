@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>About The Distributed Press</h1>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <h2>Philosophy</h2>
+            <h3>Desktop Publishing</h3>
+            <h3>Desktop Printing</h3>
+            <h3>Distribution Model</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <h2>Joining the Distributed Press</h2>
+            <h3>Getting a Printer</h3>
+            <p>The Distributed Press publishes to any <a href="http://www.google.com/cloudprint/learn/printers.html">Google Cloud Print enabled device</a>, which includes most wifi-enabled printers. Many are available online for around $60.</p>
+            <p>You can also publish to any traditional printer by connecting it to a computer running the <a href="http://www.google.com/cloudprint/learn/howitworks.html">Google Cloud Print bridge</a>.</p>
+            <h3>Subscribing</h3>
+            <p>Once your cloud printer is connected to Google Cloud Print, simply <a href="{{user_bundle.login_link}}">login to the Distributed Press</a> and add it from your dashboard. You'll receive future issues of the Distributed Press straight to your printer!</p>
+            <p>If you wish to unsubscribe, you can remove your printer from your dashboard, or disconnect the Distributed Press from your <a href="https://www.google.com/settings/security">Google Account Settings</a> under &quot;Connected applications and sites&quot;</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

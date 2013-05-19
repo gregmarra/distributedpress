@@ -8,8 +8,12 @@
             <p>The Distributed Press is the first hyper-local cloud printer based news network, delivering insightful stories from every corner of the world.</p>
             <p>Founded in 2013, The Distributed Press combines the &lsquo;desktop publishing&rsquo; revolution with the oft-overlooked &lsquo;desktop printing&rsquo; revolution. Members of the Distributed Press write, distribute, and consume delightful news daily.</p>
             <p>
-                <a class="btn btn-primary btn-large"><i class="icon-print icon-white"></i>&nbsp;&nbsp;Join the network</a>
-                <a class="btn btn-large"><i class="icon-info-sign"></i>&nbsp;&nbsp;Learn more</a>
+                {% if user_bundle.user %}
+                <a class="btn btn-primary btn-large" href="/dashboard"><i class="icon-print icon-white"></i>&nbsp;&nbsp;Your Dashboard</a>
+                {% else %}
+                <a class="btn btn-primary btn-large" href="{{user_bundle.login_url}}"><i class="icon-print icon-white"></i>&nbsp;&nbsp;Join the network</a>
+                {% endif %}
+                <a class="btn btn-large" href="/about"><i class="icon-info-sign"></i>&nbsp;&nbsp;Learn more</a>
             </p>
         </div>
     </div>
