@@ -2,10 +2,14 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
+    <div class="page-header">
         <h1>Authorize Google Cloud Print</h1>
-        <p>We need permission to access your Google Cloud Print printers in order for you to add printers to the Distributed Press.</p>
-        <p><a class="btn btn-success" href="{{auth_url}}">Go to Google</a></p>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <p>We need permission to access your Google Cloud Print printers in order for you to add printers to the Distributed Press.</p>
+            <p><a class="btn btn-success" href="{{auth_url}}">Go to Google</a></p>
+        </div>
     </div>
 </div>
 {% endblock %}

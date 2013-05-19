@@ -24,5 +24,5 @@ class DashboardController(BaseHandler):
             "printers": printers,
         })
     
-        path = os.path.join(os.path.dirname(__file__), '../templates/printer_list.html')
+        path = os.path.join(os.path.dirname(__file__), '../templates/dashboard.html')
         self.response.write(template.render(path, self.template_values))

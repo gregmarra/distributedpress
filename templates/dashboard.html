@@ -3,31 +3,41 @@
 {% block content %}
 <div class="container">
     <div class="page-header">
-        <h1>All Printers</h1>
+        <h1>Dashboard <small>{{user_bundle.user.email}}</small></h1>
     </div>
     <div class="row">
         <div class="span12">
+            <h2>Printers</h2>
+            {% if printers|length > 0 %}
             <table class="table">
                 <tr>
-                    <th>Owner</th>
-                    <th>Printer Name</th>
+                    <th>Printer</th>
                     <th>Cloud Print ID</th>
                     <th>Actions</th>
                 </tr>
                 {% for printer in printers %}
                 <tr>
-                    <td>{{ printer.owner.id }} ({{ printer.owner.get.email }})</td>
                     <td>{{ printer.display_name }}</td>
                     <td>{{ printer.cloudprint_id }}</td>
                     <td>
+                        <form action="/printers/test" method="post" style="display:inline">
+                            <input type="hidden" name="printer_key_id" value="{{printer.key.id}}">
+                            <button type="submit" class="btn btn-primary">Print Test</button>
+                        </form>
                         <form action="/printers/delete" method="post" style="display:inline">
                             <input type="hidden" name="printer_key_id" value="{{printer.key.id}}">
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Disconnect</button>
                         </form>
                     </td>
                 </tr>
                 {% endfor %}
             </table>
+            {% else %}
+            <p>You have no printers yet.</p>
+            {% endif %}
+            <div class="btn-toolbar">
+                <a class="btn btn-success" href="/printers/add"><i class="icon-plus-sign icon-white"></i> Add Printer</a></p>
+            </div>
         </div>
     </div>
 </div>

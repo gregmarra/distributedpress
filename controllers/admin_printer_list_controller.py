@@ -9,7 +9,7 @@ from models.printer import Printer
 
 class AdminPrinterListController(BaseHandler):
     def __init__(self, *args, **kw):
-        super(AdminDeliverController, self).__init__(*args, **kw)
+        super(AdminPrinterListController, self).__init__(*args, **kw)
         self._require_admin()
 
     def get(self):
