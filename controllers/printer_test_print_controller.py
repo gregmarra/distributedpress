@@ -1,27 +1,19 @@
-import httplib2
-import logging
-import urllib
-import webapp2
-
 from google.appengine.api import taskqueue
-from google.appengine.api import users
-from google.appengine.ext.webapp import template
 
 from oauth2client.appengine import StorageByKeyName
 
 import ann_config
 
-from helpers.user_bundle import UserBundle
+from controllers.base_controller import BaseHandler
 from models.printer import Printer
 from models.gcp_credentials import GcpCredentials
 
-class PrinterTestPrintController(webapp2.RequestHandler):
+class PrinterTestPrintController(BaseHandler):
     def post(self):
-        user_bundle = UserBundle()
-        if not user_bundle.user:
-            return self.redirect(user_bundle.login_url)
+        if not self.user_bundle.user:
+            return self.redirect(self.user_bundle.login_url)
 
-        gcp_cred_storage = StorageByKeyName(GcpCredentials, user_bundle.user.user_id(), 'credentials')
+        gcp_cred_storage = StorageByKeyName(GcpCredentials, self.user_bundle.user.user_id(), 'credentials')
         gcp_creds = gcp_cred_storage.get()
 
         if not gcp_creds:

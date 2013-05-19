@@ -1,31 +1,19 @@
 import os
 import logging
-import webapp2
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
 from google.appengine.ext.webapp import template
 
+from controllers.base_controller import BaseHandler
 from helpers.user_bundle import UserBundle
 
-class MainController(webapp2.RequestHandler):
+class MainController(BaseHandler):
     def get(self):
-        user_bundle = UserBundle()
-
-        template_values = {
-            "user_bundle": user_bundle,
-        }
-    
         path = os.path.join(os.path.dirname(__file__), '../templates/main.html')
-        self.response.write(template.render(path, template_values))
+        self.response.write(template.render(path, self.template_values))
 
-class AboutController(webapp2.RequestHandler):
+class AboutController(BaseHandler):
     def get(self):
-        user_bundle = UserBundle()
-
-        template_values = {
-            "user_bundle": user_bundle,
-        }
-    
         path = os.path.join(os.path.dirname(__file__), '../templates/about.html')
-        self.response.write(template.render(path, template_values))
+        self.response.write(template.render(path, self.template_values))

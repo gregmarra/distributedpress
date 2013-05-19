@@ -2,7 +2,6 @@ import httplib2
 import logging
 import os
 import urllib
-import webapp2
 
 from google.appengine.api import taskqueue
 from google.appengine.ext.webapp import template
@@ -11,15 +10,14 @@ from oauth2client.appengine import StorageByKeyName
 
 import ann_config
 
-from helpers.user_bundle import UserBundle
+from controllers.base_controller import BaseHandler
 from models.account import Account
 from models.printer import Printer
 from models.gcp_credentials import GcpCredentials
 
-class AdminDeliverController(webapp2.RequestHandler):
+class AdminDeliverController(BaseHandler):
     def __init__(self, *args, **kw):
         super(AdminDeliverController, self).__init__(*args, **kw)
-        self.user_bundle = UserBundle()
         self._check_is_admin()
 
     def _check_is_admin(self):
@@ -29,12 +27,8 @@ class AdminDeliverController(webapp2.RequestHandler):
             return self.redirect(user_bundle.login_url, abort=True)
 
     def get(self):
-        template_values = {
-            "user_bundle": self.user_bundle,
-        }
-    
         path = os.path.join(os.path.dirname(__file__), '../templates/admin_deliver.html')
-        self.response.write(template.render(path, template_values))
+        self.response.write(template.render(path, self.template_values))
 
 
     def post(self):
@@ -59,14 +53,14 @@ class AdminDeliverController(webapp2.RequestHandler):
                         }
                     )
 
-            template_values = {
+            self.template_values.update({
                 "deliver_url": self.request.get("deliver_url"),
                 "deliver_title": self.request.get("deliver_title"),
                 "printer_names": [printer.display_name for printer in printers]
-            }
+            })
 
             path = os.path.join(os.path.dirname(__file__), '../templates/admin_deliver.html')
-            self.response.write(template.render(path, template_values))
+            self.response.write(template.render(path, self.template_values))
 
         elif self.request.get("deliver_config") == "ship":
             
