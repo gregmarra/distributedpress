@@ -39,7 +39,7 @@ class AdminIssueDeliverController(BaseHandler):
         printers = Printer.query().fetch(1000)
 
         print_job = PrintJob(
-            author = account.key,
+            submitter = account.key,
             title = self.request.get(self.request.get("deliver_title")),
             url = self.request.get("deliver_url"),
         ).put()
