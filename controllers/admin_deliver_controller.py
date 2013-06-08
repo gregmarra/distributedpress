@@ -16,9 +16,9 @@ from models.printer import Printer
 from models.print_job import PrintJob
 from models.gcp_credentials import GcpCredentials
 
-class AdminDeliverController(BaseHandler):
+class AdminIssueDeliverController(BaseHandler):
     def __init__(self, *args, **kw):
-        super(AdminDeliverController, self).__init__(*args, **kw)
+        super(AdminIssueDeliverController, self).__init__(*args, **kw)
         self._require_admin()
 
     def get(self):
