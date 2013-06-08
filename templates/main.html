@@ -4,17 +4,23 @@
 <div class="container">
     <div class="row">
         <div class="hero-unit">
-            <h1>The Distributed Press</h1>
-            <p>The Distributed Press is the first hyper-local cloud printer based news network, delivering insightful stories from every corner of the world.</p>
-            <p>Founded in 2013, The Distributed Press combines the &lsquo;desktop publishing&rsquo; revolution with the oft-overlooked &lsquo;desktop printing&rsquo; revolution. Members of the Distributed Press write, distribute, and consume delightful news daily.</p>
-            <p>
-                {% if user_bundle.user %}
-                <a class="btn btn-primary btn-large" href="/dashboard"><i class="icon-print icon-white"></i>&nbsp;&nbsp;Your Dashboard</a>
-                {% else %}
-                <a class="btn btn-primary btn-large" href="{{user_bundle.login_url}}"><i class="icon-print icon-white"></i>&nbsp;&nbsp;Join the network</a>
-                {% endif %}
-                <a class="btn btn-large" href="/about"><i class="icon-info-sign"></i>&nbsp;&nbsp;Learn more</a>
-            </p>
+            <div class="row">
+                <img class="img-rounded pull-left" src="/images/distributed-press-square-small.png" height="112" width="112" title="Distributed Press Logo" />
+                <h1 style="padding: 12px 0 0 150px">The Distributed Press</h1>
+            </div>
+            <br />
+            <div class="row">
+                <p>The Distributed Press is the first hyper-local cloud printer based news network, delivering insightful stories from every corner of the world.</p>
+                <p>Founded in 2013, The Distributed Press combines the &lsquo;desktop publishing&rsquo; revolution with the oft-overlooked &lsquo;desktop printing&rsquo; revolution. Members of the Distributed Press write, distribute, and consume delightful news daily.</p>
+                <p>
+                    {% if user_bundle.user %}
+                    <a class="btn btn-primary btn-large" href="/dashboard"><i class="icon-print icon-white"></i>&nbsp;&nbsp;Your Dashboard</a>
+                    {% else %}
+                    <a class="btn btn-primary btn-large" href="{{user_bundle.login_url}}"><i class="icon-print icon-white"></i>&nbsp;&nbsp;Join the network</a>
+                    {% endif %}
+                    <a class="btn btn-large" href="/about"><i class="icon-info-sign"></i>&nbsp;&nbsp;Learn more</a>
+                </p>
+            </div>
         </div>
     </div>
 </div> 
