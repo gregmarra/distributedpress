@@ -8,50 +8,38 @@
     <div class="row">
         <div class="span12">
             <h2>Recent Issues</h2>
-            <table class="table">
-                {% for print_job in print_jobs %}
-                <tr>
-                    <td>{{ print_job.title }}</td>
-                    <td>
-                        <form action="/printers/test" method="post" style="display:inline">
-                            <button type="submit" class="btn btn-primary">TODO: Print Again</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
+            {% for print_job in print_jobs %}
+            <div class="well">
+                <h3>{{ print_job.title}}</h3>
+                <p>Published {{ print_job.created|date:"D d M Y" }}</p>
+                <form action="/printers/test" method="post" style="display:inline">
+                    <button type="submit" class="btn btn-primary">TODO: Print Again</button>
+                </form>
+            </div>
+            {% endfor %}
 
-            <h2>Your Printers</h2>
+            <h2>Your Printer</h2>
             {% if printers|length > 0 %}
-            <table class="table">
-                <tr>
-                    <th>Printer</th>
-                    <th>Cloud Print ID</th>
-                    <th>Actions</th>
-                </tr>
-                {% for printer in printers %}
-                <tr>
-                    <td>{{ printer.display_name }}</td>
-                    <td>{{ printer.cloudprint_id }}</td>
-                    <td>
-                        <form action="/printers/test" method="post" style="display:inline">
-                            <input type="hidden" name="printer_key_id" value="{{printer.key.id}}">
-                            <button type="submit" class="btn btn-primary">Print Test</button>
-                        </form>
-                        <form action="/printers/delete" method="post" style="display:inline">
-                            <input type="hidden" name="printer_key_id" value="{{printer.key.id}}">
-                            <button type="submit" class="btn btn-danger">Disconnect</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
+            {% for printer in printers %}
+            <div class="well">
+                <h3>{{ printer.display_name}}</h3>
+                <form action="/printers/test" method="post" style="display:inline">
+                    <input type="hidden" name="printer_key_id" value="{{printer.key.id}}">
+                    <button type="submit" class="btn btn-primary">Print Test Page</button>
+                </form>
+                <form action="/printers/delete" method="post" style="display:inline">
+                    <input type="hidden" name="printer_key_id" value="{{printer.key.id}}">
+                    <button type="submit" class="btn btn-danger">Disconnect</button>
+                </form>
+            </div>
+            {% endfor %}
             </table>
             {% else %}
-            <p>You have no printers yet.</p>
-            {% endif %}
-            <div class="btn-toolbar">
+            <p>Add a printer to start receiving issues of the Distributed Press.</p>
+            <div>
                 <a class="btn btn-success" href="/printers/add"><i class="icon-plus-sign icon-white"></i> Add Printer</a></p>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>
