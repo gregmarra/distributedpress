@@ -3,3 +3,6 @@ client_secrets.json
 
 # Compiled Files #
 *.pyc
+
+# DS_Store #
+*.DS_Store
