@@ -2,18 +2,17 @@
 
 {% block content %}
 <div class="container">
-
+    {% include "partials/admin_navbar.html" %}
+    <div class="page-header">
+        <h1>Deliver Issue</h1>
+    </div>
     {% if printer_names %}
-    <div class="row">
-        <div class="alert alert-block alert-success">
-            <p>Tested by printing to {{ printer_names|join:", " }}</p>
-        </div>
+    <div class="alert alert-block alert-success">
+        <p>Tested by printing to {{ printer_names|join:", " }}</p>
     </div>
     {% endif %}
-
     <div class="row">
         <div class="span12">
-            <h1>Deliver Issue</h1>
             <form action="/admin/deliver" class="form-horizontal" method="post">
                 <div class="control-group">
                     <label class="control-label" for="deliver_title">Title of Issue</label>
